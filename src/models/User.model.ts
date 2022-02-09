@@ -10,10 +10,12 @@ const userSchema = getUserSchema();
 
 userSchema.pre("save", async function (next) {
   const user = this as UserDoc;
+  if (!user.isModified("password")) return next();
   // Password Hashing
   try {
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(user.password, salt);
+    return next();
   } catch (error: any) {
     logger.error(error);
     throw new createHttpError.InternalServerError();

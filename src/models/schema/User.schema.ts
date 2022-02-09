@@ -18,9 +18,13 @@ export const getUserSchema = (): Schema => {
       },
       password: { type: String, required: true },
       phone: {
-        phone_no: String,
+        phone_no: Number,
         country_code: String,
         isVerified: { type: String, default: false },
+      },
+      alt_phone: {
+        phone_no: Number,
+        country_code: String,
       },
       address: {
         full_address: String,

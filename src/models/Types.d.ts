@@ -5,6 +5,7 @@ export interface UserDoc extends Document {
   email: { email_id: string; isVerified: boolean };
   password: string;
   phone: { phone_no: number; country_code: string; isVerified: false };
+  alt_phone: { phone_no: number; country_code: string };
   address: {
     full_address: string;
     country: string;

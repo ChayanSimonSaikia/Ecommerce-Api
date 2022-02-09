@@ -7,8 +7,10 @@ export const routes = (app: Application) => {
   //   res.send("Hello from express");
   // });
 
+  // 404 Error || Page not found
   app.use((req: Request, res: Response, next: NextFunction) => {
     next(new createHttpError.NotFound());
   });
+  // Error Handler
   app.use(errorHandlerRoute);
 };
