@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { ErrorHandler } from "../Types/Interfaces";
+import { ErrorHandler } from "../Types/__Interfaces";
 
 // Express Error Handler
 export const errorHandlerRoute = (

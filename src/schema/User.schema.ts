@@ -7,6 +7,7 @@ export const getUserSchema = (): Schema => {
         fname: { type: String, required: true },
         lname: { type: String, required: true },
       },
+
       email: {
         email_id: {
           type: String,
@@ -16,16 +17,20 @@ export const getUserSchema = (): Schema => {
         },
         isVerified: { type: Boolean, default: false },
       },
+
       password: { type: String, required: true },
+
       phone: {
         phone_no: Number,
         country_code: String,
         isVerified: { type: String, default: false },
       },
+
       alt_phone: {
         phone_no: Number,
         country_code: String,
       },
+
       address: {
         full_address: String,
         country: String,
@@ -35,7 +40,8 @@ export const getUserSchema = (): Schema => {
         pincode: Number,
         po: String,
       },
-      isSeller: { type: Boolean, default: false },
+
+      isAdmin: { type: Boolean, default: false },
     },
     { timestamps: true }
   );

@@ -1,9 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 import bcrypt from "bcryptjs";
-import { UserDoc } from "./Types";
-import { getUserSchema } from "./schema/User.schema";
+import { getUserSchema } from "../schema/User.schema";
 import createHttpError from "http-errors";
 import { logger } from "../utils/logger";
+import { UserDoc } from "../Types/__Interfaces";
 
 // User Schema
 const userSchema = getUserSchema();
