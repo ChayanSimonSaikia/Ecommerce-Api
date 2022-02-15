@@ -1,6 +1,6 @@
 import Joi from "joi";
-import { capitalized, isEmptyField } from "./functions/methods.validation";
-import { password } from "./functions/regex.validation";
+import { capitalized, isEmptyField } from "./custom/methods.validation";
+import { password } from "./custom/regex.validation";
 
 export const registerForm = Joi.object({
   name: {
@@ -34,4 +34,9 @@ export const registerForm = Joi.object({
         "any.only": "Confirm Password is not matching with Password",
       },
     }),
+});
+
+export const loginForm = Joi.object({
+  email: Joi.string().required().email().lowercase(),
+  password: Joi.string().required(),
 });

@@ -23,7 +23,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Compare Password
-userSchema.methods.comparePasswordasync = function (
+userSchema.methods.comparePassword = function (
   candidatePssword: string
 ): Promise<boolean> {
   const user = this as UserDoc;

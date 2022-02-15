@@ -6,3 +6,5 @@ export type Address =
   | "street"
   | "pincode"
   | "po";
+
+export type TokenRole = "ACCESS" | "REFRESH" | "EMAIL" | "PASSWORD";

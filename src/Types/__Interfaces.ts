@@ -7,10 +7,11 @@ export interface UserDoc extends Document {
   name: { fname: string; lname: string };
   email: { email_id: string; isVerified: boolean };
   password: string;
-  phone: { phone_no: number; country_code: string; isVerified: false };
+  phone: { phone_no: number; country_code: string; isVerified: boolean };
   alt_phone: { phone_no: number; country_code: string };
   address: Record<Address, string>;
   isSeller: boolean;
+  comparePassword(candidatePssword: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -77,6 +78,10 @@ export interface UserReg {
     fname: string;
     lname: string;
   };
+  email: string;
+  password: string;
+}
+export interface UserLogin {
   email: string;
   password: string;
 }

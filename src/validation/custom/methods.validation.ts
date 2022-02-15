@@ -1,9 +1,6 @@
-import { error } from "console";
 import Joi from "joi";
 
 export const capitalized = (value: any, helper: Joi.CustomHelpers<any>) => {
-  console.log(typeof value);
-
   const whiteSpaceRemoved: string = value
     .replace(/\s{2,}/g, " ")
     .trimEnd()
@@ -14,8 +11,11 @@ export const capitalized = (value: any, helper: Joi.CustomHelpers<any>) => {
     );
 
   let name = "";
-  whiteSpaceRemoved.split(" ").map((val) => {
+  const nameArray = whiteSpaceRemoved.split(" ");
+  nameArray.map((val, index) => {
     name += val.charAt(0).toUpperCase() + val.slice(1);
+    // adding space
+    if (index !== nameArray.length - 1) name += " ";
   });
   return name;
 };

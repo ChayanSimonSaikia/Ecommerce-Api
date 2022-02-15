@@ -23,7 +23,7 @@ export const getUserSchema = (): Schema => {
       phone: {
         phone_no: Number,
         country_code: String,
-        isVerified: { type: String, default: false },
+        isVerified: { type: Boolean, default: false },
       },
 
       alt_phone: {
