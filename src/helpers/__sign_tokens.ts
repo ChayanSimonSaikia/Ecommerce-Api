@@ -2,8 +2,6 @@ import JWT, { JwtPayload, Secret, SignOptions } from "jsonwebtoken";
 import config from "config";
 import createHttpError from "http-errors";
 import { TokenRole } from "../Types/__Types";
-import { create } from "domain";
-import { generateTokens } from "../services/auth.services";
 
 export const signToken = (
   role: TokenRole,

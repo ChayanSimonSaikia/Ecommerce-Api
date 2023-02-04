@@ -1,14 +1,13 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { Router } from "express";
+import { addProduct } from "../controllers/product.controller";
 import { isLoggedIn } from "../middlewares/isLoggedIn.middleware";
+
 const router = Router();
 
 /* ::GET routes */
-router.get(
-  "/",
-  isLoggedIn,
-  (req: Request, res: Response, next: NextFunction) => {
-    res.send("You are logged in");
-  }
-);
+router.get("/");
+
+/* POST routes */
+router.post("/addProduct", isLoggedIn, addProduct);
 
 export const product_router = router;

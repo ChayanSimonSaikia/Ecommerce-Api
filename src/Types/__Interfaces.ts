@@ -15,30 +15,24 @@ export interface UserDoc extends Document {
   createdAt: Date;
   updatedAt: Date;
 }
+
 export interface ProductDoc extends Document {
   title: string;
   description: string;
-  price: {
-    selling_price: number;
-    offer_price: number;
-  };
-  inSale: boolean;
+  price: number;
   quantity: number;
-  isAvailable: boolean;
   images: {
     display_image: string;
     other_images: string[];
   };
   categories: string[];
-  meta: MetaField;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface CategoryDoc extends Document {
   title: string;
-  products: string[];
-  meta: MetaField;
+  description: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -49,13 +43,6 @@ export interface CartDoc extends Document {
   items: [CartItem];
   createdAt: Date;
   updatedAt: Date;
-}
-
-// It is meta field used for purpose of imporving SEO
-export interface MetaField extends Document {
-  title: string;
-  keywords: string[];
-  desc: string;
 }
 
 export interface ErrorHandler extends ErrorRequestHandler {
