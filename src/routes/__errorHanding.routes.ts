@@ -10,5 +10,6 @@ export const errorHandlerRoute = (
 ) => {
   const status: number = error.status || 500;
   const message: string = error.message || "Internal Server Error";
+  console.log(error);
   res.status(status).json({ status, message });
 };
