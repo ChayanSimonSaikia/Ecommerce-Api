@@ -5,6 +5,7 @@ import {
   getTotalProducts,
   getProductsByCategory,
   getTotalProductsByCategory,
+  searchProduct,
 } from "../services/product.services";
 import { addProductForm } from "../validation/product.validation";
 import createHttpError from "http-errors";
@@ -77,6 +78,40 @@ export const addProduct = async (
     const sanitized = await addProductForm.validateAsync(req.body);
     const product = await createProduct(sanitized);
     res.json({ message: "prodcuct created", product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getProduct = async (
+  req: Request<
+    {},
+    {},
+    {},
+    { search: string; maxPrice: string; minPrice: string; category: string }
+  >,
+  res: Response,
+  next: NextFunction
+) => {
+  // if user sends empty search
+  const search = req.query.search;
+  if (search.trim() === "") return next();
+
+  const filter = {
+    price: [+req.query.minPrice || 0, +req.query.maxPrice || 999999],
+    category: req.query.category || undefined,
+  };
+
+  try {
+    const prodcucts = await searchProduct(search, filter);
+
+    if (prodcucts.length === 0)
+      return next(new createHttpError.NotFound("Could not find any products"));
+
+    res.json({
+      message: "Congratulations, I've found your products",
+      prodcucts,
+    });
   } catch (error) {
     next(error);
   }

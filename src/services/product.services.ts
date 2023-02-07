@@ -45,3 +45,20 @@ export const createProduct = async (data: ProductDoc) => {
     throw new createHttpError.InternalServerError();
   }
 };
+
+export const searchProduct = (
+  search: string,
+  filter: { price: number[]; category?: string }
+) => {
+  // if user filtered the category else normal search;
+  return filter.category
+    ? ProductModel.find({
+        $text: { $search: search },
+        price: { $gt: filter.price[0], $lt: filter.price[1] },
+        categories: filter.category,
+      })
+    : ProductModel.find({
+        $text: { $search: search },
+        price: { $gt: filter.price[0], $lt: filter.price[1] },
+      });
+};
