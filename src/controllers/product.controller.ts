@@ -95,7 +95,10 @@ export const getProduct = async (
 ) => {
   // if user sends empty search
   const search = req.query.search;
-  if (search.trim() === "") return next();
+  if (search.trim() === "")
+    return next(
+      new createHttpError.BadRequest("Please type your desired product name")
+    );
 
   const filter = {
     price: [+req.query.minPrice || 0, +req.query.maxPrice || 999999],
