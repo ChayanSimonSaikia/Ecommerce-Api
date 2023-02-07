@@ -4,7 +4,7 @@ import { getProductSchema } from "../schema/Product.schema";
 
 const productSchema = getProductSchema();
 
-productSchema.index({ name: "text", description: "text", categories: "text" });
+productSchema.index({ title: "text", description: "text", categories: "text" });
 
 export const ProductModel = mongoose.model<ProductDoc>(
   "Product",
