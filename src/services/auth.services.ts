@@ -3,9 +3,7 @@ import { signToken } from "../helpers/__sign_tokens";
 import { UserModel } from "../models/User.model";
 import { UserReg } from "../Types/__Interfaces";
 import config from "config";
-import JWT from "jsonwebtoken";
 import client from "../utils/__init_redis";
-import sendgrid from "@sendgrid/mail";
 import { UserDocWithId } from "../Types/__Types";
 
 export const createUser = async (data: UserReg): Promise<UserDocWithId> => {
@@ -40,6 +38,10 @@ export const isValidUser = async (email: string) => {
   return user;
 };
 
+export const getUserById = (user_id: string) => {
+  return UserModel.findById(user_id);
+};
+
 export const generateTokens = async (
   userid: string
 ): Promise<{ accessToken: string; refreshToken: string }> => {
@@ -48,7 +50,7 @@ export const generateTokens = async (
     "ACCESS",
     config.get<string>("ACCESS_TOKEN_SECRET"),
     userid,
-    "5m"
+    "20m"
   );
   // Refresh token
   const refreshToken = await signToken(

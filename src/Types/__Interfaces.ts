@@ -11,12 +11,18 @@ export interface UserDoc extends Document {
   alt_phone: { phone_no: number; country_code: string };
   address: Record<Address, string>;
   isSeller: boolean;
+  carts: {
+    product_id: Schema.Types.ObjectId;
+    quantity: number;
+    total_price: number;
+  }[];
   comparePassword(candidatePssword: string): Promise<boolean>;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface ProductDoc extends Document {
+  _id: Schema.Types.ObjectId;
   title: string;
   description: string;
   price: number;

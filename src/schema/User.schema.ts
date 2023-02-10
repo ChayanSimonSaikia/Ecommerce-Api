@@ -42,6 +42,13 @@ export const getUserSchema = (): Schema => {
       },
 
       isAdmin: { type: Boolean, default: false },
+      carts: [
+        {
+          product_id: { type: Schema.Types.ObjectId, ref: "Product" },
+          quantity: Number,
+          total_price: Number,
+        },
+      ],
     },
     { timestamps: true }
   );

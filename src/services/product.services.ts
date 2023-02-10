@@ -30,6 +30,10 @@ export const getTotalProducts = () => {
   return ProductModel.find().countDocuments();
 };
 
+export const getProductById = (product_id: string) => {
+  return ProductModel.findById(product_id);
+};
+
 export const getTotalProductsByCategory = (category_id: string) => {
   return ProductModel.find({ categories: category_id }).countDocuments();
 };
