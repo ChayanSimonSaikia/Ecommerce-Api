@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { ProductDoc } from "../Types/__Interfaces";
+import { ProductDoc, CartDoc } from "../Types/__Interfaces";
 
 export const addProductForm = Joi.object<ProductDoc>({
   title: Joi.string().required().min(4),
@@ -11,4 +11,8 @@ export const addProductForm = Joi.object<ProductDoc>({
   //   other_images: [Joi.string().required()],
   // },
   categories: Joi.array().items(Joi.string().required()),
+});
+
+export const updateCart = Joi.object<CartDoc>({
+  quantity: Joi.number().required().integer(),
 });

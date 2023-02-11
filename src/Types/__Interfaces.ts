@@ -45,8 +45,9 @@ export interface CategoryDoc extends Document {
 // Cart document type
 
 export interface CartDoc extends Document {
-  userid: Schema.Types.ObjectId;
-  items: [CartItem];
+  product_id: Schema.Types.ObjectId;
+  quantity: number;
+  total_price: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,12 +55,6 @@ export interface CartDoc extends Document {
 export interface ErrorHandler extends ErrorRequestHandler {
   status: number;
   message: string;
-}
-
-export interface CartItem extends Document {
-  item: Schema.Types.ObjectId;
-  quantity: number;
-  total_price: number;
 }
 
 /* Validation interfaces */

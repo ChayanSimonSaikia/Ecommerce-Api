@@ -7,11 +7,11 @@ import {
   getUserById,
 } from "../services/auth.services";
 import { getProductById } from "../services/product.services";
-import mongoose from "mongoose";
 
 import createHttpError from "http-errors";
 import { UserLogin, UserReg } from "../Types/__Interfaces";
 import { loginForm, registerForm } from "../validation/auth.validation";
+import { updateCart } from "../validation/product.validation";
 
 export const POST__register = async (
   req: Request,
@@ -73,7 +73,7 @@ export const addToCart = async (
     const user = await getUserById(user_id);
     if (!user)
       return next(
-        new createHttpError.InternalServerError("Somewent went wrong")
+        new createHttpError.InternalServerError("Something went wrong")
       );
 
     let new_cart = [...user.carts];
@@ -107,6 +107,76 @@ export const addToCart = async (
     await user.save();
 
     res.json({ message: "Added to cart" });
+  } catch (error) {
+    let errorName;
+    if (error instanceof Error) {
+      errorName = error.name;
+    }
+
+    if (errorName === "CastError")
+      return next(new createHttpError.BadRequest("Invalid product"));
+    next(error);
+  }
+};
+
+export const modifyCart = async (
+  req: Request<{ product_id: string; op: "DEL" | "MOD" }>,
+  res: Response<{}, { payload: { sub: string } }>,
+  next: NextFunction
+) => {
+  // If product id is empty
+  const cart_id = req.params.product_id;
+  if (cart_id.trim() === "")
+    return next(
+      new createHttpError.BadRequest("Something went wrong, Please try again.")
+    );
+  /* storing operation value and checking whether
+  it is invalid operation request */
+  const op = req.params.op;
+  if (op !== "DEL" && op !== "MOD") return next(new createHttpError.NotFound());
+
+  try {
+    // getting user id
+    const user_id = res.locals.payload.sub;
+    const user = await getUserById(user_id);
+    if (!user)
+      return next(
+        new createHttpError.InternalServerError("Something went wrong")
+      );
+
+    const carts = [...user.carts];
+    // Finding desired cart index
+    let indx;
+    for (let i = 0; i < carts.length; i++) {
+      if (cart_id == carts[i].product_id.toString()) {
+        indx = i;
+        break;
+      }
+    }
+    // No index found that's means no cart with that product_id
+    if (indx === undefined)
+      return next(new createHttpError.InternalServerError("Product Not found"));
+    /*  For Deleting a cart */
+    if (op === "DEL") {
+      carts.splice(indx, 1);
+      user.carts = carts;
+      await user.save();
+      return res.json({ message: "Cart got deleted." });
+    }
+    /* For Updation of a cart  */
+    // Validating Body
+    const { quantity }: { quantity: number } = await updateCart.validateAsync(
+      req.body
+    );
+    // Finding the individual product price
+    const ind_price = carts[indx].total_price / carts[indx].quantity;
+    // Updating the values
+    carts[indx].quantity = quantity;
+    carts[indx].total_price = ind_price * quantity;
+    user.carts = carts;
+
+    await user.save();
+    res.json({ message: "Cart updated." });
   } catch (error) {
     let errorName;
     if (error instanceof Error) {
